@@ -1,6 +1,6 @@
 # Phishtank Scanner
 
-Script to search a victims of Phishing within PhishTank.
+Script to search a victims of Phishing within PhishTank. The research is done by analyzing the URL of phishing.
 
 # Usage
 
