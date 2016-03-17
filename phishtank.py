@@ -7,6 +7,7 @@ import urllib2
 Victim = ""
 Page2Scan = ""
 totalvictim = 0
+totalscan = 0
 
 def main(argv):
    global Victim
@@ -35,11 +36,11 @@ for count in range(0,int(Page2Scan)):
 	url = "https://www.phishtank.com/phish_search.php?page=%d" % count
 	
 	page = urllib2.urlopen(url).read()
-	soup = BeautifulSoup(page, "html.parser")
+	table = BeautifulSoup(page, "html.parser")
 	
-	
-	for tr in soup.find_all('tr')[2:]:
+	for tr in table.find_all('tr')[1:]:
 		tds = tr.find_all('td')
+		totalscan = totalscan + 1 
 		if len(tds) == 5:
 			Id = tds[0].find(text=True)
 			UrlPhishing = tds[1].find(text=True)
@@ -47,12 +48,9 @@ for count in range(0,int(Page2Scan)):
 			Valid = tds[3].find(text=True)
 			Online = tds[4].find(text=True)
 			if Victim in UrlPhishing:
-				print " * Phishing url: " + UrlPhishing + " find on page %d" % count + ": " + "https://www.phishtank.com/phish_search.php?page=%d" % count
+				print "\t Phishing identified on url: " + UrlPhishing 
+				print "\t find on page %d" % count + ": " + "https://www.phishtank.com/phish_search.php?page=%d" % count + "\n"
 				totalvictim = totalvictim + 1
 				
 if (totalvictim > 0):
-	print ""
-	print "Found %d" % totalvictim + " cases of phishing on %d" % int(Page2Scan) + " page."
-	
-
-
+	print "Found %d" % totalvictim + " cases of phishing on %d" % totalscan + " suspected phishes."	
